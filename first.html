@@ -1,0 +1,32 @@
+<html data-ng-app="myMod">
+<head>
+    <title>XYZ</title>
+</head>
+<body>
+    <div class="container" data-ng-controller="SimpleController">
+        Name:
+        <br />
+        <input type="text" data-ng-model="name" /> {{ name }}
+        <br />
+        <h3>A List</h3>
+        <ul>
+            <li data-ng-repeat="resident in residents | filter:name | orderBy:'city'">{{ resident.name | uppercase }} - {{ resident.city }}</li>
+        </ul>
+    </div>
+    <script src="scripts/angular.min.js"></script>
+    <script>
+        var mod = angular.module('myMod', []);
+
+        var controllers = {};
+        controllers.SimpleController = function ($scope) {
+            $scope.residents = [
+                { name: 'Michael', city: 'Mill Valley' },
+                { name: 'Chris', city: 'Sao Paolo' },
+                { name: 'Milan', city: 'Milano' }
+            ];
+        };
+
+        mod.controller(controllers);
+    </script>
+</body>
+</html>
