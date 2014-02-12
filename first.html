@@ -14,8 +14,9 @@
         </ul>
     </div>
     <script src="scripts/angular.min.js"></script>
+    <script src="scripts/angular-route.min.js"></script>
     <script>
-        var mod = angular.module('myMod', []);
+        var mod = angular.module('myMod', ['ngRoute']);
 
         var controllers = {};
         controllers.SimpleController = function ($scope) {
