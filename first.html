@@ -3,31 +3,49 @@
     <title>XYZ</title>
 </head>
 <body>
-    <div class="container" data-ng-controller="SimpleController">
-        Name:
-        <br />
-        <input type="text" data-ng-model="name" /> {{ name }}
-        <br />
-        <h3>A List</h3>
-        <ul>
-            <li data-ng-repeat="resident in residents | filter:name | orderBy:'city'">{{ resident.name | uppercase }} - {{ resident.city }}</li>
-        </ul>
+    <div>
+        <div data-ng-view=""></div>
     </div>
     <script src="scripts/angular.min.js"></script>
     <script src="scripts/angular-route.min.js"></script>
     <script>
-        var mod = angular.module('myMod', ['ngRoute']);
+        var mod = angular.module('myMod', ['ngRoute'])
+        .factory('simpleFactory', function () {
+            var factory = {};
+            factory.getResidents = function () {
+                return [
+                    { fname: 'Michael', city: 'Mill Valley' },
+                    { fname: 'Chris', city: 'Sao Paolo' },
+                    { fname: 'Milan', city: 'Milano' }
+                ];
+            };
 
-        var controllers = {};
-        controllers.SimpleController = function ($scope) {
-            $scope.residents = [
-                { name: 'Michael', city: 'Mill Valley' },
-                { name: 'Chris', city: 'Sao Paolo' },
-                { name: 'Milan', city: 'Milano' }
-            ];
-        };
+            return factory;
+        })
+        .controller({
+            SimpleController: function ($scope, simpleFactory) {
+                (function init() {
+                    $scope.residents = simpleFactory.getResidents();
+                })();
 
-        mod.controller(controllers);
+                $scope.addResident = function () {
+                    $scope.residents.push({ fname: $scope.newResident.name, city: $scope.newResident.city });
+                };
+            }
+        })
+        .config(function ($routeProvider) {
+            $routeProvider
+            .when('/view1', {
+                controller: 'SimpleController',
+                templateUrl: 'partials/view1.html'
+            })
+            .when('/view2', {
+                controller: 'SimpleController',
+                templateUrl: 'partials/view2.html'
+            })
+            .otherwise({ redirectTo: '/view1' });
+        });
     </script>
+   
 </body>
 </html>

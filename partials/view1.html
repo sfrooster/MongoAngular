@@ -1,0 +1,23 @@
+﻿<div class="container">
+    <h2>View 1</h2>
+    Name:
+    <br />
+    <input type="text" data-ng-model="filter.name" />
+    <br />
+    <ul>
+        <li data-ng-repeat="resident in residents | filter:filter.name | orderBy:'city'">{{ resident.fname | uppercase }} - {{ resident.city }}</li>
+    </ul>
+
+    <br/>
+    Resident Name:
+    <br/>
+    <input type="text" data-ng-model="newResident.name" />
+    <br />
+    Resident City:
+    <br />
+    <input type="text" data-ng-model="newResident.city" />
+    <br/>
+    <button data-ng-click="addResident()">Add Resident</button>
+    <br/>
+    <a href="#/view2">View 2</a>
+</div>
